@@ -5,9 +5,9 @@ groups displayed, the order is:
 
 `1, 3, 5, 7, 2, 4, 6, 8`
 
-Only groups displayed by EUI take up positions. Pairs are 1/2, 3/4, 5/6, and 7/8.
-Groups whose partner is not displayed go last, in numeric order. For example,
-with **Hide Empty Groups** enabled:
+EUI decides which groups are displayed and whether empty groups take up space.
+If the highest displayed group is odd, it goes last. For example, with
+**Hide Empty Groups** enabled:
 
 - Groups 1-4 populated: `1, 3, 2, 4`.
 - Groups 1-5 populated: `1, 3, 2, 4, 5`.

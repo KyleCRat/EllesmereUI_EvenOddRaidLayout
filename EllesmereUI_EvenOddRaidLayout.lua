@@ -33,21 +33,17 @@ local function PlaceAnchor(anchor, relativeTo, x, y)
     anchor.frame:SetPoint(anchor.point, relativeTo, anchor.relativePoint, x, y)
 end
 
-local function BuildGroupOrder(blocks)
+local function BuildGroupOrder(blocks, lastGroup)
     local order = {}
+    local unpairedGroup = lastGroup % 2 == 1 and lastGroup
     for _, group in ipairs(GROUP_ORDER) do
-        local partner = group % 2 == 1 and group + 1 or group - 1
-        if blocks[group] and blocks[partner] then
+        if blocks[group] and group ~= unpairedGroup then
             order[#order + 1] = group
         end
     end
 
-    -- Keep complete odd/even pairs together; append unpaired groups numerically.
-    for group = 1, 8 do
-        local partner = group % 2 == 1 and group + 1 or group - 1
-        if blocks[group] and not blocks[partner] then
-            order[#order + 1] = group
-        end
+    if unpairedGroup then
+        order[#order + 1] = unpairedGroup
     end
     return order
 end
@@ -57,10 +53,12 @@ local function ReorderBlocks(blocks)
     -- from the EUI pass that just finished, including tier overrides and pixel
     -- snapping. Never feed already-reordered positions back through this pass.
     local slots = {}
+    local lastGroup
     for group = 1, 8 do
         local block = blocks[group]
         if block then
             slots[#slots + 1] = block[1]
+            lastGroup = group
         end
     end
 
@@ -76,7 +74,7 @@ local function ReorderBlocks(blocks)
         end
     end
 
-    local order = BuildGroupOrder(blocks)
+    local order = BuildGroupOrder(blocks, lastGroup)
     for slot, group in ipairs(order) do
         local block = blocks[group]
         local dx = slots[slot].x - block[1].x
