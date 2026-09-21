@@ -1,11 +1,17 @@
 # EllesmereUI Even/Odd Raid Layout
 
-Groups EUI raid frames by odd subgroup first, then even subgroup:
+Groups EUI raid frames by odd subgroup first, then even subgroup. With all eight
+groups displayed, the order is:
 
 `1, 3, 5, 7, 2, 4, 6, 8`
 
-Only groups displayed by EUI take up positions. With groups 1-4 populated and
-**Hide Empty Groups** enabled, the order is `1, 3, 2, 4`.
+Only groups displayed by EUI take up positions. Pairs are 1/2, 3/4, 5/6, and 7/8.
+Groups whose partner is not displayed go last, in numeric order. For example,
+with **Hide Empty Groups** enabled:
+
+- Groups 1-4 populated: `1, 3, 2, 4`.
+- Groups 1-5 populated: `1, 3, 2, 4, 5`.
+- Groups 1-7 populated: `1, 3, 5, 2, 4, 6, 7`.
 
 Enable the companion and turn **Merge Groups** off in EUI's raid-frame options.
 Use EUI's existing **Unit Growth**, **Group Growth**, spacing, visible-group,

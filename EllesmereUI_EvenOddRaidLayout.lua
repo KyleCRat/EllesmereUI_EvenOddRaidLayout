@@ -33,6 +33,25 @@ local function PlaceAnchor(anchor, relativeTo, x, y)
     anchor.frame:SetPoint(anchor.point, relativeTo, anchor.relativePoint, x, y)
 end
 
+local function BuildGroupOrder(blocks)
+    local order = {}
+    for _, group in ipairs(GROUP_ORDER) do
+        local partner = group % 2 == 1 and group + 1 or group - 1
+        if blocks[group] and blocks[partner] then
+            order[#order + 1] = group
+        end
+    end
+
+    -- Keep complete odd/even pairs together; append unpaired groups numerically.
+    for group = 1, 8 do
+        local partner = group % 2 == 1 and group + 1 or group - 1
+        if blocks[group] and not blocks[partner] then
+            order[#order + 1] = group
+        end
+    end
+    return order
+end
+
 local function ReorderBlocks(blocks)
     -- Capture every original slot before moving anything. These positions come
     -- from the EUI pass that just finished, including tier overrides and pixel
@@ -57,19 +76,16 @@ local function ReorderBlocks(blocks)
         end
     end
 
-    local slot = 0
-    for _, group in ipairs(GROUP_ORDER) do
+    local order = BuildGroupOrder(blocks)
+    for slot, group in ipairs(order) do
         local block = blocks[group]
-        if block then
-            slot = slot + 1
-            local dx = slots[slot].x - block[1].x
-            local dy = slots[slot].y - block[1].y
-            for _, anchor in ipairs(block) do
-                PlaceAnchor(anchor, anchor.relativeTo, anchor.x + dx, anchor.y + dy)
-            end
+        local dx = slots[slot].x - block[1].x
+        local dy = slots[slot].y - block[1].y
+        for _, anchor in ipairs(block) do
+            PlaceAnchor(anchor, anchor.relativeTo, anchor.x + dx, anchor.y + dy)
         end
     end
-    return true
+    return order
 end
 
 local function ReanchorAttachedFrames(owner)
@@ -123,13 +139,10 @@ local function OnRaidLayout()
         end
     end
 
-    if not ReorderBlocks(blocks) then return end
-    for _, group in ipairs(GROUP_ORDER) do
-        if blocks[group] then
-            firstHeader = firstHeader or blocks[group][1].frame
-            lastHeader = blocks[group][1].frame
-        end
-    end
+    local order = ReorderBlocks(blocks)
+    if not order then return end
+    firstHeader = blocks[order[1]][1].frame
+    lastHeader = blocks[order[#order]][1].frame
     ReanchorAttachedFrames(raidFrames._XF)
     ReanchorAttachedFrames(raidFrames._FB)
 end
