@@ -1,6 +1,6 @@
 ## Interface: 120100
 ## Title: EllesmereUI Even/Odd Raid Layout
-## Notes: Displays odd raid groups together, followed by even raid groups.
+## Notes: Displays odd raid groups together, followed by even groups, with a final unpaired group last.
 ## Author: Yvairel
 ## Version: 12.1.0-1
 ## Dependencies: EllesmereUIRaidFrames
