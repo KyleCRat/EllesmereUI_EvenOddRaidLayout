@@ -1,5 +1,9 @@
 # Changelog
 
+## [12.1.5-2] - 2026-10-06
+
+- Updated for WoW 12.1.5.
+
 ## [12.1.0-1] - 2026-09-21
 
 - Initial release for Retail 12.1.0 and EllesmereUI Raid Frames 9.2.2.

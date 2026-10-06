@@ -37,7 +37,7 @@ Party frames and merged raid layouts retain EUI's normal behavior.
 Layout changes wait until combat ends. Actual raid subgroup assignments are
 unchanged. To restore numeric display order, disable the companion and reload.
 
-Targets Retail 12.1.0 and the installed EllesmereUI Raid Frames 9.2.2. It uses
+Targets Retail 12.1.5 and the installed EllesmereUI Raid Frames 9.2.2. It uses
 EUI's internal layout hooks, so future EUI updates may require adjustments.
 The Lua passes a 5.1 syntax check. In-game validation is still needed for both
 example layouts, previews, roster changes, click casting, and combat transitions.
